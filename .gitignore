@@ -25,3 +25,6 @@ Thumbs.db
 
 # Ignore logs
 *.log
+
+# Ignore raw video datasets
+data/3DPW/raw/

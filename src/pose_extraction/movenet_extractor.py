@@ -26,11 +26,13 @@ class MoveNetPoseExtractor:
     def _extract_from_video_file(self, video_path):
         cap = cv2.VideoCapture(video_path)
         all_landmarks = []
+        
 
         while cap.isOpened():
             success, frame = cap.read()
             if not success:
                 break
+            print("Processing frame...")
             landmarks = self._process_frame(frame)
             all_landmarks.append(landmarks)
 
@@ -87,3 +89,4 @@ class MoveNetPoseExtractor:
         keypoints = outputs['output_0'].numpy()[0, 0, :, :]  # shape: (17, 3)
 
         return keypoints
+

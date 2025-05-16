@@ -1,9 +1,12 @@
 import os
+import sys
+# Add the project root to sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from src.pose_extraction.mediapipe_extractor import MediapipePoseExtractor
 from src.data_processing.landmark_processor import landmarks_to_dataframe, save_landmarks
 
 # Set input
-input_path = "data/3DPW/raw/imageFiles/downtown_cafe_00"  # <-- Update this path
+input_path = "data/3DPW/raw/imageFiles/imageFiles/outdoors_slalom_00"  # <-- Update this path
 
 # Extract
 extractor = MediapipePoseExtractor()

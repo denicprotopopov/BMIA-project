@@ -79,7 +79,7 @@ class MoveNetPoseExtractor:
     def _process_frame(self, frame):
         # Preprocessing
         input_image = cv2.resize(frame, (256, 256))
-        input_image = tf.image.convert_image_dtype(input_image, dtype=tf.float32)
+        input_image = tf.convert_to_tensor(input_image, dtype=tf.int32)
         input_image = tf.expand_dims(input_image, axis=0)
 
         # Inference

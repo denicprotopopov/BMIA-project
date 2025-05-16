@@ -1,7 +1,12 @@
 import os
 import sys
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 # Add the project root to sys.path
+=======
+
+# Add the src directory to the Python path
+>>>>>>> Stashed changes
 =======
 
 # Add the src directory to the Python path
@@ -12,7 +17,11 @@ from src.data_processing.landmark_processor import landmarks_to_dataframe, save_
 
 # Set input
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 input_path = "data/3DPW/raw/imageFiles/imageFiles/outdoors_slalom_00"    # <-- Update this path
+=======
+input_path = r"D:\JPC_Datasets(obsolete)\BioImAnalysis_project_dataset\BioImAnalysis_project_dataset\BioImAnalysis_project_dataset_VIDEOS\automotor_MP4\IM706-2_sz03_kinect.mp4"  # <-- Update this path
+>>>>>>> Stashed changes
 =======
 input_path = r"D:\JPC_Datasets(obsolete)\BioImAnalysis_project_dataset\BioImAnalysis_project_dataset\BioImAnalysis_project_dataset_VIDEOS\automotor_MP4\IM706-2_sz03_kinect.mp4"  # <-- Update this path
 >>>>>>> Stashed changes

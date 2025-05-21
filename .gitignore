@@ -27,4 +27,3 @@ Thumbs.db
 *.log
 
 # Ignore raw video datasets
-data/3DPW/raw/

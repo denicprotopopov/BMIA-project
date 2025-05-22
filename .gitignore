@@ -18,8 +18,6 @@ Thumbs.db
 .vscode/
 
 # Ignore output files
-*.csv
-*.pkl
 *.h5
 *.npy
 
@@ -27,4 +25,4 @@ Thumbs.db
 *.log
 
 # Ignore raw video datasets
-data/3DPW/raw/
+data/3DPW

@@ -14,7 +14,7 @@ from src.data_processing.landmark_processor import landmarks_to_dataframe, save_
 # 1 
 # input_path = r"D:\JPC_Datasets(obsolete)\BioImAnalysis_project_dataset\BioImAnalysis_project_dataset\BioImAnalysis_project_dataset_VIDEOS\automotor_MP4\IM706-2_sz03_kinect.mp4"  # <-- Update this path
 # 2
-# input_path = r"D:\JPC_Datasets(obsolete)\BioImAnalysis_project_dataset\BioImAnalysis_project_dataset\BioImAnalysis_project_dataset_VIDEOS\automotor_MP4\IM722-4_sz06_kinect.mp4"  # <-- Update this path
+input_path = r"D:\JPC_Datasets(obsolete)\BioImAnalysis_project_dataset\BioImAnalysis_project_dataset\BioImAnalysis_project_dataset_VIDEOS\automotor_MP4\IM722-4_sz06_kinect.mp4"  # <-- Update this path
 # 3
 # input_path = r"D:\JPC_Datasets(obsolete)\BioImAnalysis_project_dataset\BioImAnalysis_project_dataset\BioImAnalysis_project_dataset_VIDEOS\automotor_MP4\IM1183-2_sz12_kinect.mp4"  # <-- Update this path
 # 4
@@ -46,7 +46,7 @@ from src.data_processing.landmark_processor import landmarks_to_dataframe, save_
 # 17
 # input_path = r"D:\JPC_Datasets(obsolete)\BioImAnalysis_project_dataset\BioImAnalysis_project_dataset\BioImAnalysis_project_dataset_VIDEOS\automotor_MP4\IM1321_sz02_kinect.mp4"  # <-- Update this path
 # 18 
-input_path = r"D:\JPC_Datasets(obsolete)\BioImAnalysis_project_dataset\BioImAnalysis_project_dataset\BioImAnalysis_project_dataset_VIDEOS\automotor_MP4\IM1321_sz04_kinect.mp4"  # <-- Update this path
+# input_path = r"D:\JPC_Datasets(obsolete)\BioImAnalysis_project_dataset\BioImAnalysis_project_dataset\BioImAnalysis_project_dataset_VIDEOS\automotor_MP4\IM1321_sz04_kinect.mp4"  # <-- Update this path
 
 
 # Extract

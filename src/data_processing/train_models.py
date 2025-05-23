@@ -44,10 +44,11 @@ def main():
     joblib.dump(scaler, os.path.join(model_path, "feature_scaler.pkl"))
 
     models = [
-        (RandomForestClassifier(n_estimators=100, random_state=42), "Random Forest", X_train, X_test),
-        (SVC(kernel='rbf', probability=True, random_state=42), "SVM", X_train_scaled, X_test_scaled),
-        (LogisticRegression(max_iter=1000, class_weight='balanced'), "Logistic Regression", X_train_scaled, X_test_scaled),
-        (KNeighborsClassifier(n_neighbors=5), "KNN", X_train_scaled, X_test_scaled)
+    (RandomForestClassifier(n_estimators=100, random_state=42), "Random Forest", X_train, X_test),
+    (SVC(kernel='rbf', probability=True, random_state=42), "SVM", X_train_scaled, X_test_scaled),
+    (LogisticRegression(max_iter=1000, class_weight='balanced'), "Logistic Regression", X_train_scaled, X_test_scaled),
+    (KNeighborsClassifier(n_neighbors=5), "KNN", X_train_scaled, X_test_scaled),
+    (AdaBoostClassifier(n_estimators=100, random_state=42), "AdaBoost", X_train, X_test)
     ]
 
     if xgboost_available:

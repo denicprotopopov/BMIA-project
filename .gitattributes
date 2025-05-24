@@ -1,1 +1,2 @@
 data/processed_windows/X_windows.pkl filter=lfs diff=lfs merge=lfs -text
+*.pkl filter=lfs diff=lfs merge=lfs -text

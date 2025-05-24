@@ -6,10 +6,14 @@ from src.pose_extraction.mediapipe_extractor import MediapipePoseExtractor
 from src.data_processing.landmark_processor import landmarks_to_dataframe, save_landmarks
 
 # Set input
+<<<<<<< Updated upstream
 
 # input_path = "data/3DPW/raw/imageFiles/imageFiles/outdoors_slalom_00"  # <-- Update this path
 
 input_path = r"D:\JPC_Datasets(obsolete)\BioImAnalysis_project_dataset\BioImAnalysis_project_dataset\BioImAnalysis_project_dataset_VIDEOS\automotor_MP4\IM722-4_sz06_kinect.mp4"  # <-- Update this path
+=======
+input_path = r"D:\JPC_Datasets(obsolete)\BioImAnalysis_project_dataset\BioImAnalysis_project_dataset\BioImAnalysis_project_dataset_VIDEOS\automotor_MP4\IM706-2_sz03_kinect.mp4"  # <-- Update this path
+>>>>>>> Stashed changes
 
 # Extract
 extractor = MediapipePoseExtractor()

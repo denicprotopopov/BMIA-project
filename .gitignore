@@ -27,3 +27,4 @@ Thumbs.db
 # Ignore raw video datasets
 data/3DPWdata/processed_windows/X_windows.pkl
 data/processed_windows/X_windows.pkl
+data/processed_windows/X_windows.pkl

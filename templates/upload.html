@@ -2,13 +2,231 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Seizure Detection</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SeizCam</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'IBM Plex Sans', sans-serif;
+            margin: 20px;
+            background: #000000;
+            color: #EF88AD;
+        }
+        .container { 
+            max-width: 900px;
+            margin: 20px auto;
+            background: hsla(0, 0%, 12%, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow:
+                0 0 40px 10px rgba(165, 56, 96, 0.3),
+                0 0 100px 20px rgba(165, 56, 96, 0.1);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1, h2 { 
+            color: #EF88AD;
+            text-align: center;
+            margin-bottom: 25px;
+            text-shadow: 0 0 5px rgba(239, 136, 173, 0.5);
+        }
+        .title-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .logo {
+            height: 40px;
+            width: auto;
+            vertical-align: middle;
+        }
+        form { 
+            margin-top: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            border: 1px solid rgba(239, 136, 173, 0.1);
+            border-radius: 15px;
+            background-color: rgba(58, 5, 25, 0.2);
+        }
+        input[type="file"] { 
+            border: 1px solid rgba(239, 136, 173, 0.3);
+            padding: 10px;
+            border-radius: 5px;
+            background-color: rgba(165, 56, 96, 0.1);
+            color: #EF88AD;
+            width: 100%;
+            max-width: 300px;
+            font-family: 'IBM Plex Sans', sans-serif;
+            cursor: pointer;
+        }
+        button[type="submit"] { 
+            background: rgba(165, 56, 96, 0.3);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            font-family: 'IBM Plex Sans', sans-serif;
+            box-shadow: 0 0 10px rgba(165, 56, 96, 0.4);
+        }
+        button[type="submit"]:hover:not(:disabled) { 
+            background: rgba(165, 56, 96, 0.5);
+        }
+        button[type="submit"]:disabled {
+            background-color: rgba(165, 56, 96, 0.15);
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        .results { 
+            margin-top: 40px;
+            border-top: 2px solid #464040;
+            padding-top: 30px;
+            width: 100%;
+            text-align: center;
+        }
+        .result-item { 
+            background: #eaf7ed;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-left: 5px solid #27ae60;
+            border-radius: 5px;
+            text-align: left;
+            font-size: 1.1em;
+            color: #286a43;
+        }
+        .no-seizures { 
+            background: #fff0e0;
+            padding: 12px;
+            margin-top: 20px;
+            border-left: 5px solid #f39c12;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1.1em;
+            color: #a0620d;
+        }
+        .error-message { 
+            color: red;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: center;
+            padding: 10px;
+            background-color: #ffe0e0;
+            border-radius: 5px;
+            border: 1px solid #e74c3c;
+        }
+        .video-player { 
+            margin-top: 40px;
+            text-align: center;
+            width: 100%;
+        }
+        video { 
+            max-width: 100%;
+            height: auto;
+            border: 2px solid rgba(239, 136, 173, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(165, 56, 96, 0.5);
+            display: block;
+        }
+        .loader {
+            border: 8px solid rgba(239, 136, 173, 0.2);
+            border-top: 8px solid #EF88AD;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 2s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-thumb { background: rgba(239, 136, 173, 0.5); border-radius: 4px; }
+        ::-webkit-scrollbar-track { background: rgba(58, 5, 25, 0.1); }
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px auto;
+            }
+            form {
+                max-width: 100%;
+            }
+            input[type="file"], button[type="submit"] {
+                max-width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h2>Upload Video for Seizure Detection</h2>
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="video" accept="video/*" required>
-        <button type="submit">Upload and Analyze</button>
-    </form>
+    <div class="container">
+        <div class="title-group">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="SeizCam Logo" class="logo">
+            <h1>SeizCam</h1>
+        </div>
+        <h2>Upload Video for Seizure Detection</h2>
+        <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="video" id="videoUpload" accept="video/*" required>
+            <button type="submit" id="uploadButton">Upload and Analyze</button>
+        </form>
+        <div id="loadingSpinner" class="loader"></div>
+        {% if message %}
+            <div class="no-seizures">
+                <p>{{ message }}</p>
+            </div>
+        {% endif %}
+        {% if results %}
+            <div class="results">
+                <h2>Seizure Detection Results:</h2>
+                {% for result in results %}
+                    <div class="result-item">
+                        <p>{{ result }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% if processed_video_url %}
+            <div class="video-player">
+                <h2>Processed Video with Keypoints:</h2>
+                <video controls autoplay loop muted>
+                    <source src="{{ processed_video_url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        {% endif %}
+        {% if error_message %}
+            <div class="error-message">
+                <p>{{ error_message }}</p>
+            </div>
+        {% endif %}
+    </div>
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function() {
+            const uploadButton = document.getElementById('uploadButton');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            uploadButton.disabled = true;
+            uploadButton.textContent = 'Processing...';
+            loadingSpinner.style.display = 'block';
+        });
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                const uploadButton = document.getElementById('uploadButton');
+                const loadingSpinner = document.getElementById('loadingSpinner');
+                uploadButton.disabled = false;
+                uploadButton.textContent = 'Upload and Analyze';
+                loadingSpinner.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>

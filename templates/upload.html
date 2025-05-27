@@ -3,131 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seizure Detection</title>
+    <title>SeizCam</title>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         body { 
             font-family: 'IBM Plex Sans', sans-serif;
             margin: 20px;
             background: #000000;
-            color: #ffffff;
+            color: #EF88AD;
         }
         .container { 
             max-width: 900px;
             margin: 20px auto;
-            background: rgba(30, 30, 30, 0.9);
+            background: hsla(0, 0%, 12%, 0.9);
             padding: 30px;
             border-radius: 20px;
             box-shadow:
-                0 0 40px 10px rgba(128, 0, 255, 0.3),
-                0 0 100px 20px rgba(128, 0, 255, 0.1);
+                0 0 40px 10px rgba(165, 56, 96, 0.3),
+                0 0 100px 20px rgba(165, 56, 96, 0.1);
             backdrop-filter: blur(10px);
             display: flex;
             flex-direction: column;
             align-items: center;
         }
         h1, h2 { 
-            color: #ffb6ff;
-            text-align: center; 
+            color: #EF88AD;
+            text-align: center;
             margin-bottom: 25px;
-            text-shadow: 0 0 5px rgba(255, 182, 255, 0.5);
+            text-shadow: 0 0 5px rgba(239, 136, 173, 0.5);
+        }
+        .title-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .logo {
+            height: 40px;
+            width: auto;
+            vertical-align: middle;
         }
         form { 
-            margin-top: 20px; 
-            text-align: center; 
+            margin-top: 20px;
+            text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 15px;
             padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(239, 136, 173, 0.1);
             border-radius: 15px;
-            background-color: rgba(0, 0, 0, 0.2);
+            background-color: rgba(58, 5, 25, 0.2);
         }
         input[type="file"] { 
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(239, 136, 173, 0.3);
             padding: 10px;
             border-radius: 5px;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
+            background-color: rgba(165, 56, 96, 0.1);
+            color: #EF88AD;
             width: 100%;
             max-width: 300px;
             font-family: 'IBM Plex Sans', sans-serif;
             cursor: pointer;
         }
         button[type="submit"] { 
-            background: rgba(128, 0, 255, 0.3);
-            color: white; 
-            padding: 12px 25px; 
-            border: none; 
+            background: rgba(165, 56, 96, 0.3);
+            color: white;
+            padding: 12px 25px;
+            border: none;
             border-radius: 15px;
-            cursor: pointer; 
+            cursor: pointer;
             font-size: 16px;
             transition: background-color 0.3s ease;
             font-family: 'IBM Plex Sans', sans-serif;
-            box-shadow: 0 0 10px rgba(128, 0, 255, 0.4);
+            box-shadow: 0 0 10px rgba(165, 56, 96, 0.4);
         }
         button[type="submit"]:hover:not(:disabled) { 
-            background: rgba(128, 0, 255, 0.5);
+            background: rgba(165, 56, 96, 0.5);
         }
         button[type="submit"]:disabled {
-            background-color: rgba(128, 0, 255, 0.15);
+            background-color: rgba(165, 56, 96, 0.15);
             cursor: not-allowed;
             box-shadow: none;
         }
         .results { 
-            margin-top: 40px; 
-            border-top: 2px solid rgba(255, 255, 255, 0.1);
-            padding-top: 30px; 
+            margin-top: 40px;
+            border-top: 2px solid #464040;
+            padding-top: 30px;
             width: 100%;
             text-align: center;
         }
         .result-item { 
-            background: rgba(40, 106, 67, 0.2);
-            padding: 12px; 
-            margin-bottom: 10px; 
+            background: #eaf7ed;
+            padding: 12px;
+            margin-bottom: 10px;
             border-left: 5px solid #27ae60;
-            border-radius: 8px;
+            border-radius: 5px;
             text-align: left;
             font-size: 1.1em;
-            color: #eaf7ed;
+            color: #286a43;
         }
         .no-seizures { 
-            background: rgba(243, 156, 18, 0.2);
-            padding: 12px; 
+            background: #fff0e0;
+            padding: 12px;
             margin-top: 20px;
             border-left: 5px solid #f39c12;
-            border-radius: 8px;
+            border-radius: 5px;
             text-align: center;
             font-size: 1.1em;
-            color: #ffe0b2;
+            color: #a0620d;
         }
         .error-message { 
-            color: #e74c3c; 
-            font-weight: bold; 
-            margin-top: 20px; 
-            text-align: center; 
+            color: red;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: center;
             padding: 10px;
-            background-color: rgba(231, 76, 60, 0.2);
-            border-radius: 8px;
+            background-color: #ffe0e0;
+            border-radius: 5px;
             border: 1px solid #e74c3c;
         }
         .video-player { 
-            margin-top: 40px; 
-            text-align: center; 
+            margin-top: 40px;
+            text-align: center;
             width: 100%;
         }
         video { 
-            max-width: 100%; 
-            height: auto; 
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            max-width: 100%;
+            height: auto;
+            border: 2px solid rgba(239, 136, 173, 0.2);
             border-radius: 20px;
-            box-shadow: 0 0 20px rgba(128, 0, 255, 0.5);
+            box-shadow: 0 0 20px rgba(165, 56, 96, 0.5);
             display: block;
         }
         .loader {
-            border: 8px solid rgba(255, 255, 255, 0.2);
-            border-top: 8px solid #ffb6ff;
+            border: 8px solid rgba(239, 136, 173, 0.2);
+            border-top: 8px solid #EF88AD;
             border-radius: 50%;
             width: 60px;
             height: 60px;
@@ -140,8 +152,8 @@
             100% { transform: rotate(360deg); }
         }
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-thumb { background: rgba(255, 182, 255, 0.5); border-radius: 4px; }
-        ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.1); }
+        ::-webkit-scrollbar-thumb { background: rgba(239, 136, 173, 0.5); border-radius: 4px; }
+        ::-webkit-scrollbar-track { background: rgba(58, 5, 25, 0.1); }
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
@@ -158,7 +170,10 @@
 </head>
 <body>
     <div class="container">
-        <h1>SeizCam</h1>
+        <div class="title-group">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="SeizCam Logo" class="logo">
+            <h1>SeizCam</h1>
+        </div>
         <h2>Upload Video for Seizure Detection</h2>
         <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
             <input type="file" name="video" id="videoUpload" accept="video/*" required>

@@ -62,5 +62,4 @@ flask
 gunicorn
 joblib
 tqdm
-sklearn
 scikit-learn

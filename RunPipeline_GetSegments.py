@@ -4,6 +4,7 @@ import joblib
 import cv2
 import tensorflow as tf
 import tensorflow_hub as hub
+from scipy.signal import medfilt
 
 from src.pose_extraction.movenet_extractor import MoveNetPoseExtractor
 from src.data_processing.features import extract_features_from_window
@@ -29,7 +30,7 @@ def extract_windows_from_video(video_path, window_size=60, stride=30):
 
 def predict_seizure_ranges(video_path, model_dir):
     # Load KNN model and scaler
-    model_path = os.path.join(model_dir, "knn.pkl")
+    model_path = os.path.join(model_dir, "best_model_knn.pkl")
     scaler_path = os.path.join(model_dir, "feature_scaler.pkl")
 
     if not os.path.exists(model_path):
@@ -71,7 +72,13 @@ def predict_seizure_ranges(video_path, model_dir):
     X_scaled   = scaler.transform(X_features)
 
     # Predict
-    y_pred = model.predict(X_scaled)
+    # Apply temporal smoothing
+    y_pred_raw = model.predict(X_scaled)
+    if len(y_pred_raw) >= 5:
+        y_pred = medfilt(y_pred_raw, kernel_size=5)
+    else:
+        y_pred = y_pred_raw
+
 
     # Convert predicted windows to time segments
     cap = cv2.VideoCapture(video_path)

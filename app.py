@@ -1,5 +1,7 @@
 from flask import Flask, request, render_template, send_file
 import os
+import io
+import csv
 from RunPipeline_GetSegments import predict_seizure_ranges, process_video_with_keypoints
 
 UPLOAD_FOLDER    = 'uploads'
@@ -15,7 +17,11 @@ os.makedirs(PROCESSED_FOLDER, exist_ok=True)
 
 @app.route('/')
 def upload_form():
-    return render_template('upload.html')
+    return render_template('upload.html',
+                           results=[],
+                           message=None,
+                           processed_video_url=None,
+                           seizure_segments_data=[])
 
 @app.route('/upload', methods=['POST'])
 def upload_video():
@@ -32,26 +38,38 @@ def upload_video():
     processed_video_filename = "processed_" + video.filename
     processed_filepath       = os.path.join(app.config['PROCESSED_FOLDER'], processed_video_filename)
 
+    segments = []
+    results_display = []
+    message_display = None
+    error_message_display = None
+    processed_video_url_val = None
+
     try:
         segments = predict_seizure_ranges(filepath, MODEL_DIR)
         
         process_video_with_keypoints(filepath, processed_filepath, seizure_segments=segments)
 
-        if not segments:
-            return render_template('upload.html',
-                                   message="No seizures detected.",
-                                   processed_video_url=f'/{app.config["PROCESSED_FOLDER"]}/{processed_video_filename}')
+        processed_video_url_val = f'/{app.config["PROCESSED_FOLDER"]}/{processed_video_filename}'
 
-        results = [f"Seizure {i+1}: Start = {start:.2f}s, End = {end:.2f}s"
-                   for i, (start, end) in enumerate(segments)]
-        return render_template('upload.html',
-                               results=results,
-                               processed_video_url=f'/{app.config["PROCESSED_FOLDER"]}/{processed_video_filename}')
+        if not segments:
+            message_display = "No seizures detected."
+
+        else:
+            results_display = [f"Seizure {i+1}: Start = {start:.2f}s, End = {end:.2f}s"
+                               for i, (start, end) in enumerate(segments)]
 
     except Exception as e:
         import traceback
         traceback.print_exc()
-        return f"Error during processing: {e}", 500
+        error_message_display = f"Error during processing: {e}"
+
+    return render_template('upload.html',
+                           results=results_display,
+                           message=message_display,
+                           processed_video_url=processed_video_url_val,
+                           seizure_segments_data=segments, # This is the raw [start, end] list for JS
+                           error_message=error_message_display)
+
 
 @app.route('/processed_videos/<filename>')
 def serve_processed_video(filename):
